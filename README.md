@@ -1,5 +1,5 @@
 # Advanced Apply
-Using template metaprogramming to 'magically' destructure pairs and tuples at compile time.
+Using template metaprogramming to 'magically' destructure pairs and tuples at compile time. Not advicable to use anywhere, unless you want to obliterate the compile time of your project. This was an experiment to explore the type system of C++ and its capabilities, this also allowed me to create some neat interfaces for a side project.
 
 ``` c++
 auto main() -> int {
