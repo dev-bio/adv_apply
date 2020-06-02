@@ -15,7 +15,7 @@ auto main() -> int {
 	auto y = std::make_pair(1, 15.f);
 	std::cout << adv::apply(x, [](float & a, int b) {
 		std::cout << a << std::endl;
-        std::cout << b << std::endl;
+		std::cout << b << std::endl;
 
 		return b;
 	}); // Expected output: 15.0, 1
