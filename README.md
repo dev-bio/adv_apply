@@ -1,5 +1,7 @@
 # Advanced Apply
-Using template metaprogramming to 'magically' destructure pairs and tuples at compile time. Not advicable to use anywhere, unless you want to obliterate the compile time of your project. This was an experiment to explore the type system of C++ and its capabilities, this also allowed me to create some neat interfaces for a side project.
+Using template metaprogramming to 'magically' and ergonomically destructure pairs and tuples at compile time without any peformance penalty. The operations are usually [inlined](https://godbolt.org/z/dfYz5E9aq) on the first optimization pass. The order of the lambda parameters doesn't matter, only in the case where you retrieve items of the same type. 
+
+This was an experiment to explore the type system of C++ and its capabilities.
 
 ``` c++
 #include "adv_apply.hpp"
@@ -8,24 +10,20 @@ Using template metaprogramming to 'magically' destructure pairs and tuples at co
 #include <string>
 
 auto main() -> int {
-	// Expected output: 15.0, 8.0, 1, "amazing!", 99, 66, 2
-	auto x = std::make_tuple(1, 2, 3, 4, 5, std::make_pair(99, 66), 7, 8.0, 9, 10, std::string { "amazing!" }, 33, 13, 14, 15.f, 16, 17, 18, 2);
-	std::cout << adv::apply(x, [](float & a, double b, int c, int d, std::string & s, std::pair<int, int> & p) {
-		std::cout << a << std::endl;
-		std::cout << b << std::endl;
-		std::cout << c << std::endl;
-		std::cout << s << std::endl;
-		std::cout << p.first << std::endl;
-		std::cout << p.second << std::endl;
+    int const array[] = { 10, 20, 30 };
+    auto x = std::make_tuple(0.5, array, std::make_pair(1, 1000000));
+    for (auto i = 0; i < 10; i++) {
+        auto y = adv::apply(x, [&](std::pair<int, int> & a, double b, int const p[]) {
+            std::cout << "array: " << p[i % 3] << std::endl;
+            a.second = (int)(a.second * b);
+            a.first = a.first + i;
 
-		return d;
-	}) << std::endl;
+            return a;
+        });
 
-	// Expected output: 15.0, 1
-	auto y = std::make_pair(1, 15.f);
-	std::cout << adv::apply(x, [](float & a, int b) {
-		std::cout << a << std::endl;
-
-		return b;
-	}) << std::endl;
+        std::cout << "pair second: " << y.second << std::endl;
+        std::cout << "pair first: " << y.first << std::endl;
+    }
 }
+```
+**Note:** this utility could obliterate the compile time of your project, use with care.
