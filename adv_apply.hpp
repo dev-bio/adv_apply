@@ -305,6 +305,9 @@ namespace adv
             return functor(std::get<Indices>(object) ...);
         }
     }
+
+    template <typename ... Types, typename Functor>
+    inline constexpr decltype(auto) apply(std::tuple<Types ... > && object, Functor && functor) = delete;
  
     template <typename ... Types, typename Functor>
     inline constexpr decltype(auto) apply(std::tuple<Types ... > & object, Functor && functor)
@@ -320,6 +323,9 @@ namespace adv
     }
 
     template <typename ... Types, typename Functor>
+    inline constexpr decltype(auto) apply(std::tuple<Types ... > const && object, Functor && functor) = delete;
+
+    template <typename ... Types, typename Functor>
     inline constexpr decltype(auto) apply(std::tuple<Types ... > const & object, Functor && functor)
     {
         static_assert(utility::carrier_contains<utility::type_carrier<Types ... >, utility::parameters_t<Functor>>::value, "This tuple does not contain one or more of these types!");
@@ -333,6 +339,9 @@ namespace adv
     }
 
     template <typename ... Types, typename Functor>
+    inline constexpr decltype(auto) apply(std::pair<Types ... > && object, Functor && functor) = delete;
+
+    template <typename ... Types, typename Functor>
     inline constexpr decltype(auto) apply(std::pair<Types ... > & object, Functor && functor)
     {
         static_assert(utility::carrier_contains<utility::type_carrier<Types ... >, utility::parameters_t<Functor>>::value, "This pair does not contain one or more of these types!");
@@ -344,6 +353,9 @@ namespace adv
  
         return detail::this_with(object, parameters, std::forward<Functor>(functor));
     }
+
+    template <typename ... Types, typename Functor>
+    inline constexpr decltype(auto) apply(std::pair<Types ... > const && object, Functor && functor) = delete;
 
     template <typename ... Types, typename Functor>
     inline constexpr decltype(auto) apply(std::pair<Types ... > const & object, Functor && functor)
