@@ -80,7 +80,7 @@ namespace adv
         template <typename ... Types, typename Current, typename Next, typename ... Rest>
         struct carrier_contains<type_carrier<Types ... >, type_carrier<Current, Next, Rest ... >>
         {
-            enum : bool { value = detail::type_carrier_contains<type_carrier<Types ... >, Current>::value&& carrier_contains<type_carrier<Types ... >, type_carrier<Next, Rest ... >>::value };
+            enum : bool { value = detail::type_carrier_contains<type_carrier<Types ... >, Current>::value && carrier_contains<type_carrier<Types ... >, type_carrier<Next, Rest ... >>::value };
         };
  
         template <unsigned ... Indices, unsigned Current>
@@ -92,7 +92,7 @@ namespace adv
         template <unsigned ... Indices, unsigned Current, unsigned Next, unsigned ... Rest>
         struct carrier_contains<index_carrier<Indices ... >, index_carrier<Current, Next, Rest ... >>
         {
-            enum : bool { value = detail::index_carrier_contains<index_carrier<Indices ... >, Current>::value&& carrier_contains<index_carrier<Indices ... >, index_carrier<Next, Rest ... >>::value };
+            enum : bool { value = detail::index_carrier_contains<index_carrier<Indices ... >, Current>::value && carrier_contains<index_carrier<Indices ... >, index_carrier<Next, Rest ... >>::value };
         };
  
         // ----------------------------------------->
